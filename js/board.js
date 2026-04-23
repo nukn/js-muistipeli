@@ -18,7 +18,7 @@ export function createBoard(cardCount) {
     shuffle(cards);
     cards.forEach(card => {
         const cardElement = createCardElement(card);
-        cardElement.addEventListener('click', () => flipCard(cardElement, handleCardFlip));
+        cardElement.addEventListener('click', () => flipCard(cardElement, handleCardFlip, lockBoard));
         gameBoard.appendChild(cardElement);
     });
 }
@@ -27,8 +27,6 @@ function handleCardFlip(cardElement) {
     if (lockBoard) return;
     if (cardElement === firstCard) return;
 
-    cardElement.classList.add('flipped');
-    cardElement.textContent = cardElement.dataset.card;
 
     if (!firstCard) {
         firstCard = cardElement;
@@ -36,6 +34,7 @@ function handleCardFlip(cardElement) {
     }
 
     secondCard = cardElement;
+    lockBoard =true
     checkForMatch();
 }
 
@@ -51,7 +50,7 @@ function disableCards() {
 }
 
 function unflipCards() {
-    lockBoard = true;
+    
     setTimeout(() => {
         firstCard.classList.remove('flipped');
         secondCard.classList.remove('flipped');
