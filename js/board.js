@@ -13,9 +13,14 @@ function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
-export function createBoard(cardCount) {
+export function createBoard() {
+    const cardCount = parseInt(prompt("Syötä korttien määrä (parillinen luku):"), 10);
+    if (!cardCount || isNaN(cardCount) || cardCount % 2 !== 0) {
+        alert("Korttien määrän täytyy olla parillinen luku.");
+        return;
+    }
     gameBoard.innerHTML = '';
-    pairs = 0
+    pairs = 0;
     const selectedCards = allCards.slice(0, cardCount / 2);
     const cards = [...selectedCards, ...selectedCards];
     shuffle(cards);
@@ -24,13 +29,12 @@ export function createBoard(cardCount) {
         cardElement.addEventListener('click', () => flipCard(cardElement, handleCardFlip, lockBoard));
         gameBoard.appendChild(cardElement);
     });
-
-    document.getElementById('restart-btn').addEventListener('click', () => {
-        resetBoard();
-        createBoard(cardCount);
-    });
-
 }
+
+document.getElementById('restart-btn').addEventListener('click', () => {
+        resetBoard();
+        createBoard();
+    });
 
 function handleCardFlip(cardElement) {
     if (lockBoard) return;
