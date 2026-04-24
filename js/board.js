@@ -7,12 +7,15 @@ const gameBoard = document.getElementById('game-board');
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
+let pairs = 0
 
 function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
 export function createBoard(cardCount) {
+    gameBoard.innerHTML = '';
+    pairs = 0
     const selectedCards = allCards.slice(0, cardCount / 2);
     const cards = [...selectedCards, ...selectedCards];
     shuffle(cards);
@@ -21,6 +24,12 @@ export function createBoard(cardCount) {
         cardElement.addEventListener('click', () => flipCard(cardElement, handleCardFlip, lockBoard));
         gameBoard.appendChild(cardElement);
     });
+
+    document.getElementById('restart-btn').addEventListener('click', () => {
+        resetBoard();
+        createBoard(cardCount);
+    });
+
 }
 
 function handleCardFlip(cardElement) {
@@ -46,6 +55,12 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
+
+    pairs++;
+    if (pairs === gameBoard.children.length / 2) {
+        setTimeout(() => alert('Voitit pelin!'), 300)
+    }
+
     resetBoard();
 }
 
