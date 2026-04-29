@@ -55,7 +55,7 @@ function handleCardFlip(cardElement) {
 
     secondCard = cardElement;
     lockBoard =true
-    
+
     attempts++;
     document.getElementById('attempt-counter').textContent = attempts
 
@@ -87,7 +87,7 @@ function unflipCards() {
         firstCard.textContent = '';
         secondCard.textContent = '';
         resetBoard();
-    }, 1500);
+    }, 1000);
 }
 
 function resetBoard() {
