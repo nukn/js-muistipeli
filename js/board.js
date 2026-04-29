@@ -8,6 +8,7 @@ let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 let pairs = 0
+let attempts = 0
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -24,6 +25,9 @@ export function createBoard() {
     }
     gameBoard.innerHTML = '';
     pairs = 0;
+    attempts = 0;
+    document.getElementById('attempt-counter').textContent = 0;
+
     const selectedCards = allCards.slice(0, cardCount / 2);
     const cards = [...selectedCards, ...selectedCards];
     shuffle(cards);
@@ -51,6 +55,10 @@ function handleCardFlip(cardElement) {
 
     secondCard = cardElement;
     lockBoard =true
+    
+    attempts++;
+    document.getElementById('attempt-counter').textContent = attempts
+
     checkForMatch();
 }
 
@@ -65,7 +73,7 @@ function disableCards() {
 
     pairs++;
     if (pairs === gameBoard.children.length / 2) {
-        setTimeout(() => alert('Voitit pelin!'), 300)
+        setTimeout(() => alert(`Voitit pelin! Yrityksiä: ${attempts}`), 300)
     }
 
     resetBoard();
